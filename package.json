@@ -3,7 +3,10 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "pnpm --filter @procto/web dev",
+    "dev": "pnpm -r dev",
+    "dev:web": "pnpm --filter @procto/web dev",
+    "dev:backend": "pnpm --filter @procto/backend dev",
+    "dev:convex": "pnpm --filter @procto/backend convex:dev",
     "build": "pnpm --recursive build",
     "test": "pnpm --recursive test",
     "lint": "eslint .",
