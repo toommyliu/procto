@@ -1,0 +1,14 @@
+{
+  "name": "@procto/dummy",
+  "version": "1.0.0",
+  "private": true,
+  "main": "./index.ts",
+  "types": "./index.ts",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "build": "true"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3"
+  }
+}
