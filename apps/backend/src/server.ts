@@ -9,11 +9,10 @@ import {
   PythonExecutionRequestSchema,
 } from "@procto/submission-core"
 import { ConvexApiClient } from "./convexClient"
-import { loadEnv } from "./env"
+import { env } from "./env"
 import { runPythonExecution, runPythonPreview } from "./pythonRunner"
 import { processSubmission } from "./submissionProcessor"
 
-const env = loadEnv()
 const convex = new ConvexApiClient(env)
 
 const app = new Hono()
@@ -158,7 +157,7 @@ app.get("/api/submissions/:submissionId", async (c) => {
 
 app.post("/internal/execute/python", async (c) => {
   const authHeader = c.req.header("authorization")
-  const expectedHeader = `Bearer ${env.runnerInternalToken}`
+  const expectedHeader = `Bearer ${env.RUNNER_INTERNAL_TOKEN}`
 
   if (authHeader !== expectedHeader) {
     return c.json({ error: "unauthorized" }, 401)
@@ -203,7 +202,7 @@ app.post("/internal/execute/python", async (c) => {
 serve(
   {
     fetch: app.fetch,
-    port: env.port,
+    port: env.PORT,
   },
   (info) => {
     console.log(`Backend server listening on http://localhost:${info.port}`)

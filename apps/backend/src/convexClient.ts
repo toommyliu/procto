@@ -1,21 +1,21 @@
 import { ConvexHttpClient } from "convex/browser"
 import { makeFunctionReference } from "convex/server"
-import type { BackendEnv } from "./env"
+import type { Env } from "./env"
 
 export class ConvexApiClient {
   private readonly client: ConvexHttpClient
 
-  constructor(env: BackendEnv) {
-    this.client = new ConvexHttpClient(env.convexUrl)
+  constructor(env: Env) {
+    this.client = new ConvexHttpClient(env.CONVEX_URL)
 
     const clientWithAdminAuth = this.client as ConvexHttpClient & {
       setAdminAuth?: (token: string) => void
     }
 
     if (clientWithAdminAuth.setAdminAuth) {
-      clientWithAdminAuth.setAdminAuth(env.convexDeployKey)
+      clientWithAdminAuth.setAdminAuth(env.CONVEX_DEPLOY_KEY)
     } else {
-      this.client.setAuth(env.convexDeployKey)
+      this.client.setAuth(env.CONVEX_DEPLOY_KEY)
     }
   }
 

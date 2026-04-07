@@ -1,28 +1,20 @@
-const REQUIRED_ENV_VARS = ["CONVEX_URL", "CONVEX_DEPLOY_KEY"] as const
+import { createEnv } from "@t3-oss/env-core";
+import * as z from "zod";
 
-export type BackendEnv = {
-  convexUrl: string
-  convexDeployKey: string
-  runnerInternalToken: string
-  port: number
-}
+export const env = createEnv({
+  server: {
+    CONVEX_URL: z.string(),
+    CONVEX_DEPLOY_KEY: z.string(),
+    RUNNER_INTERNAL_TOKEN: z.string().default("dev-runner-token"),
+    PORT: z.coerce.number().default(8787),
+  },
+  runtimeEnv: {
+    CONVEX_URL: process.env.CONVEX_URL,
+    CONVEX_DEPLOY_KEY: process.env.CONVEX_DEPLOY_KEY,
+    RUNNER_INTERNAL_TOKEN: process.env.RUNNER_INTERNAL_TOKEN,
+    PORT: process.env.PORT,
+  },
+  emptyStringAsUndefined: true,
+});
 
-export function loadEnv(): BackendEnv {
-  for (const envVar of REQUIRED_ENV_VARS) {
-    if (!process.env[envVar]) {
-      throw new Error(`Missing required env var: ${envVar}`)
-    }
-  }
-
-  const port = Number(process.env.PORT ?? "8787")
-  if (Number.isNaN(port)) {
-    throw new Error("PORT must be a number")
-  }
-
-  return {
-    convexUrl: process.env.CONVEX_URL!,
-    convexDeployKey: process.env.CONVEX_DEPLOY_KEY!,
-    runnerInternalToken: process.env.RUNNER_INTERNAL_TOKEN ?? "dev-runner-token",
-    port,
-  }
-}
+export type Env = typeof env; 
