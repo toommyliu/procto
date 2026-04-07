@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
+import { env } from "env"
 
 type Problem = {
   _id: string
@@ -48,7 +49,7 @@ type PreviewResult = {
 }
 
 const DEMO_PROBLEM_SLUG = "sum-two-integers"
-const BACKEND_BASE_URL = import.meta.env.VITE_BACKEND_URL ?? "http://localhost:8787"
+const BACKEND_BASE_URL = env.VITE_BACKEND_URL;
 
 export const Route = createFileRoute("/")({ component: App })
 
